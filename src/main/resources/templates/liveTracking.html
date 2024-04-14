@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head th:replace="public-head" :: public-head/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/css/secondindex.css">
+    <title>UPTMVBS</title>
+
+</head>
+<body>
+<header th:replace="public-nav :: public-nav"></header>
+
+<section class="section__container">
+    <p class="section__subheader">LIVE TRACKING</p>
+    <h2 class="section__header" id="livetitle">Booked Room For Today!</h2>
+    <div class="room__grid">
+        <!-- Iterate over the map of grouped bookings -->
+        <div th:each="roomEntry : ${liveBookings}" class="room__card">
+            <div class="room__card__details">
+                <!-- Display the room name -->
+                <h4 th:text="${roomEntry.key}"></h4>
+                <!-- Iterate over the bookings for this room -->
+                <div th:each="booking : ${roomEntry.value}">
+                    <p th:text="'Booked by: ' + ${booking.customerName}"></p>
+                    <p th:text="'Date: ' + ${#dates.format(booking.bookingDate, 'dd/MM/yyyy')}"></p>
+                    <p id="time" th:text="'Time Start: ' + ${#dates.format(booking.bookingTime, 'HH:mm')} + ' - End: ' + ${#dates.format(booking.bookingEnd, 'HH:mm')}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br><br><br>
+<footer class="footer" id="contact">
+    <div class="section__container footer__container">
+        <div class="footer__col" style="text-align: center;">
+            <h2>Connect With Us!</h2>
+            <p class="footer__col">
+                Jalan 6/91, Taman Shamelin Perkasa, 56100 Cheras, Kuala Lumpur<br>
+                General Line: +603 9206 9700<br>
+                Tel : +603 92837186 (Marketing)<br>
+                Fax : +603 92810475<br>
+                E-mail : marketing@uptm.edu.my
+            </p>
+        </div>
+    </div>
+    <div class="footer__bar">
+        Copyright © University Poly-Tech Malaysia 2024. All rights reserved.
+    </div>
+</footer>
+<script src="/js/secondindex.js"></script>
+</div>
+</body>
+</html>

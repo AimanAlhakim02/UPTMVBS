@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+    --primary-color: #e82574;
+    --primary-color-dark: #bc1c5c;
+    --text-dark: #0c0a09;
+    --text-light: #78716c;
+    --white: #ffffff;
+    --max-width: 1200px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+    font-family: "Poppins", sans-serif;
+}
+
+.section__container {
+    max-width: var(--max-width);
+    margin: auto;
+    padding: 5rem 1rem;
+}
+
+.table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: 500;
+    padding: 10px;
+    text-align: left;
+}
+
+.table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    color: var(--text-dark);
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: var(--primary-color-dark);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.search__container {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.search-form {
+    margin: auto;
+    max-width: 500px;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-btn {
+    padding: 0.5rem 1rem;
+    color: var(--white);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.form-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.form-row label {
+    margin-right: 10px;
+    flex: 1;
+    text-align: right;
+}
+
+.input {
+    flex: 2;
+    padding: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav__links {
+        flex-direction: column;
+    }
+}
+
+/* Reducing the top padding of the main content area */
+main.px-3 {
+}
+
+/* If there's a top margin or padding in the search and results container, reduce it */
+.search-and-results-container {
+    margin-top: 0;
+    padding-top: 0; /* Adjust or add this line to reduce the space */
+}
+
+/* If the sections themselves have padding or margin pushing them down, reduce it */
+.section__container {
+    padding-top: 0; /* Adjust or add this line to reduce the space */
+    margin-top: 0; /* Adjust or add this line if necessary */
+}

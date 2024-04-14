@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="public-head" :: public-head>
+    <!-- Head elements including stylesheets and meta tags -->
+    <link rel="stylesheet" type="text/css" href="/css/stubooking.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="w-100 h-100 img-wrap">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <!-- Header Section -->
+        <header th:replace="public-nav :: public-nav"></header>
+        </head>
+        <body class="d-flex h-100 text-center text-white bg-dark">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <!-- Header, Main, and Footer Sections -->
+            <main class="px-3">
+
+                <!-- The action in form should be the URL mapped to the POST method in your Spring Controller -->
+
+                <section class="section__container booking__container">
+                    <h2 class="section__header">Add New Room</h2>
+                    <form th:action="@{/saveRoom}" method="post" class="booking__form">
+                        <div class="input__group">
+                            <label for="code">Room Code:</label>
+                            <input type="text" id="code" name="code" required maxlength="50">
+                        </div>
+                        <div class="input__group">
+                            <label for="location">Room Name:</label>
+                            <input type="text" id="location" name="location" required maxlength="100">
+                        </div>
+                        <div class="input__group">
+                            <label for="capacity">Capacity:</label>
+                            <input type="number" id="capacity" name="capacity" required min="1">
+                        </div>
+                        <button type="submit" class="btn">Submit</button>
+                    </form>
+                </section>
+
+            </main>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var swalAttribute = /*[[${swal}]]*/ 'none';
+    var message = /*[[${message}]]*/ 'default message';
+
+    if (swalAttribute === 'success') {
+        Swal.fire({
+            title: 'Success!',
+            text: message !== 'default message' ? message : 'Action completed successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 5000,  // Close automatically after 5 seconds
+            timerProgressBar: true,  // Show a timer progress bar
+            willClose: () => {
+                window.location.href = 'admin/createroom'; // Redirect when the modal is closed
+            }
+        });
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

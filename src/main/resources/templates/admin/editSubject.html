@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="public-head" :: public-head/>
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="w-100 h-100 img-wrap">
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header th:replace="public-nav :: public-nav"></header>
+
+    <form th:action="@{/admin/subject/save}" method="post" th:object="${subject}">
+      <input type="hidden" th:field="*{id}">
+      <div class="container p-3">
+        <h1 class="mb-3 ">[[${pageTitle}]]</h1>
+        <div class="mt-3 mb-3 row">
+
+          <label for="subject_name" class="col-sm-2 col-form-label">Class Name</label>
+          <div class="col-sm-10">
+            <input th:field="*{subject_name}" type="text" name="subject_name" id="subject_name" class="form-control"
+                   placeholder="Class Name">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="date" class="col-sm-2 col-form-label">Classroom</label>
+          <div class="col-sm-10">
+            <input th:field="*{date}" type="text" name="date" id="date" class="form-control"
+                   placeholder="Classroom">
+          </div>
+
+        </div>
+        <div class="mb-3 row">
+          <label for="time" class="col-sm-2 col-form-label">Teacher</label>
+          <div class="col-sm-10">
+            <select name="time" id="time" class="form-select">
+              <option value="Miss Linda">Miss Linda</option>
+              <option value="Mr Zarul">Mr Zarul</option>
+              <option value="Mr Azhari">Mr Azhari</option>
+              <option value="Mrs Mimi">Mrs Mimi</option>
+              <option value="Miss Irdina">Miss Irdina</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="total_stud" class="col-sm-2 col-form-label">Total Student</label>
+          <div class="col-sm-10">
+            <input th:field="*{total_stud}" type="text" name="total_stud" id="total_stud" class="form-control"
+                   placeholder="Total Student">
+          </div>
+
+        </div>
+
+
+        <div class="mb-3 row">
+          <div>
+
+            <a th:href="@{/admin/subject}" class="btn btn-primary mb-3 text-uppercase" style="width:120px;">Cancel
+            </a>
+            <button type="submit" class="btn btn-primary mb-3 text-uppercase" style="width:120px;">Save
+            </button>
+          </div>
+        </div>
+
+    </form>
+  </div>
+
+  <footer th:replace="public-footer :: public-footer"></footer>
+</div>
+</div>
+
+
+</body>
+</html>

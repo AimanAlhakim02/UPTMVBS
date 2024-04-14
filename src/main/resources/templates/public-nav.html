@@ -1,0 +1,38 @@
+<header class="mb-auto" th:fragment="public-nav">
+    <div>
+
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}" class="nav-link"
+               aria-current="page" th:href="@{/}">Home</a>
+
+            <a sec:authorize="isAuthenticated()"
+               th:classappend="${#httpServletRequest.getRequestURI().contains('/liveTracking') and !#httpServletRequest.getRequestURI().contains('/admin') ? 'active':''}"
+               class="nav-link" th:href="@{/liveTracking}">Room Update</a>
+
+            <a sec:authorize="isAuthenticated()"
+               th:classappend="${#httpServletRequest.getRequestURI().contains('/makebooking') and !#httpServletRequest.getRequestURI().contains('/admin') ? 'active':''}"
+               class="nav-link" th:href="@{/makebooking}">Make Booking</a>
+
+            <a sec:authorize="isAnonymous()"
+               th:classappend="${#httpServletRequest.getRequestURI().contains('/login') or #httpServletRequest.getRequestURI().contains('/register') ? 'active':''}" class="nav-link"
+               th:href="@{/login}">Login</a>
+
+            <a sec:authorize="hasRole('ADMIN')"
+               th:classappend="${#httpServletRequest.getRequestURI().contains('/admin/createroom') ? 'active':''}"
+               class="nav-link" th:href="@{/admin/createroom}">Create Room</a>
+
+            <a sec:authorize="hasRole('ADMIN')"
+               th:classappend="${#httpServletRequest.getRequestURI().contains('/admin/manageroom') ? 'active':''}"
+               class="nav-link" th:href="@{/admin/manageroom}">Manage Room</a>
+
+            <a sec:authorize="hasRole('ADMIN')"
+               th:classappend="${#httpServletRequest.getRequestURI().contains('/admin/subject') ? 'active':''}"
+               class="nav-link" th:href="@{/admin/searchBooking}">Manage Booking</a>
+
+            <a sec:authorize="isAuthenticated()"
+               th:classappend="${#httpServletRequest.getRequestURI() == '/logout' ? 'active':''}" class="nav-link"
+               th:href="@{/logout}">Logout</a>
+
+        </nav>
+    </div>
+</header>

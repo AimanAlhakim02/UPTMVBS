@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="public-head :: public-head">
+    <!-- Head elements including stylesheets and meta tags -->
+    <link rel="stylesheet" type="text/css" href="/css/stubooking.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="w-100 h-100 img-wrap">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <!-- Header Section -->
+        <header th:replace="public-nav :: public-nav"></header>
+
+        <!-- Main Content -->
+        <main class="px-3">
+            <section class="section__container search-and-results-container">
+                <!-- Booking Form Section -->
+                <section class="section__container form-container">
+                    <h2>Room Booking Form</h2>
+
+                    <form action="/saveBooking" method="post" th:action="@{/saveBooking}">
+                        <!-- CSRF Token added for security -->
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+                        <label for="roomCode">Room Code:</label><br>
+                        <input type="text" id="roomCode" name="roomCode" maxlength="50" required><br>
+
+                        <label for="roomName">Room Name:</label><br>
+                        <input type="text" id="roomName" name="roomName" maxlength="100" required><br>
+
+                        <label for="customerName">Customer Name:</label><br>
+                        <input type="text" id="customerName" name="customerName" maxlength="100" required><br>
+
+                        <label for="phoneNumber">Phone Number:</label><br>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" maxlength="15" required><br>
+
+                        <label for="bookingDate">Booking Date:</label><br>
+                        <input type="date" id="bookingDate" name="bookingDate" required><br>
+
+                        <label for="bookingTime">Booking Time:</label><br>
+                        <input type="time" id="bookingTime" name="bookingTime" required><br>
+
+                        <label for="bookingEnd">Booking End Time:</label><br>
+                        <input type="time" id="bookingEnd" name="bookingEnd" required><br>
+
+                        <label for="roomPurpose">Room Purpose:</label><br>
+                        <input type="text" id="roomPurpose" name="roomPurpose" maxlength="50" required><br><br>
+
+                        <input type="submit" value="Submit Booking">
+                    </form>
+                </section>
+            </section>
+        </main>
+
+        <!-- Footer Section -->
+        <footer th:replace="public-footer :: public-footer"></footer>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var swalAttribute = /*[[${swal}]]*/ 'none';
+    var message = /*[[${message}]]*/ 'default message';
+
+    if (swalAttribute === 'success') {
+        Swal.fire({
+            title: 'Success!',
+            text: message !== 'default message' ? message : 'Action completed successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 5000,  // Close automatically after 5 seconds
+            timerProgressBar: true,  // Show a timer progress bar
+            willClose: () => {
+                window.location.href = '/makebooking'; // Redirect when the modal is closed
+            }
+        });
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

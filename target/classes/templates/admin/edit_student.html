@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="public-head" :: public-head>
+    <!-- Head elements including stylesheets and meta tags -->
+    <link rel="stylesheet" type="text/css" href="/css/stubooking.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="w-100 h-100 img-wrap">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <!-- Header Section -->
+        <header th:replace="public-nav :: public-nav"></header>
+
+        <section class="section__container search__container">
+            <h2 class="section__header">Search Rooms</h2>
+            <form th:action="@{/room/search/page/1}" method="get" class="search-form">
+                <div class="input__group">
+                    <input type="text" name="keyword" placeholder="Search by code, location, etc." class="search-input">
+                    <button type="submit" class="btn search-btn">Search</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="section__container" th:if="${rooms != null}">
+            <h2 class="section__header">Search Results</h2>
+            <div class="table-responsive" th:if="${not #lists.isEmpty(rooms)}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Code</th>
+                        <th>Location</th>
+                        <th>Capacity</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="room : ${rooms}">
+                        <td th:text="${room.id}"></td>
+                        <td th:text="${room.code}"></td>
+                        <td th:text="${room.location}"></td>
+                        <td th:text="${room.capacity}"></td>
+                        <td>
+                            <a th:href="@{/room/edit/{id}(id=${room.id})}" class="btn btn-primary">Edit</a>
+                            <a th:href="@{/room/delete/{id}(id=${room.id})}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${not #lists.isEmpty(rooms)}">
+                <p>No results found.</p>
+            </div>
+        </section>
+
+    <footer th:replace="public-footer :: public-footer"></footer>
+</div>
+</div>
+
+
+</body>
+</html>

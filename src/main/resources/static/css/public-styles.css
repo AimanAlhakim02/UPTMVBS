@@ -1,0 +1,208 @@
+/* Public Stylesheet - Overriding Bootstrap 5 CSS */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+    --primary-color: #0093FF; /* Adjusted to a unified blue color */
+    --primary-color-dark: #0056b3; /* Dark blue for hover states */
+    --text-dark: #0c0a09;
+    --text-light: #78716c;
+    --white: #ffffff;
+    --max-width: 1200px;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    text-shadow: 0 0.05rem 0.1rem rgb(0 0 0 / 50%);
+    background-image: url('/images/UPTMBG.jpeg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    scroll-behavior: smooth;
+}
+
+.input__group input,
+.input__group select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px; /* Space between form elements */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.3;
+    background: inherit;
+    z-index: -1;
+}
+
+.nav-masthead .nav-link {
+    padding: 0.25rem 0;
+    font-weight: 700;
+    color: #00446e;
+    background-color: transparent;
+    border-bottom: 0.25rem solid transparent;
+}
+
+.nav-masthead .nav-link + .nav-link {
+    margin-left: 1rem;
+}
+
+.nav-masthead .active {
+    color: #00446e;
+    border-bottom-color: #fff;
+}
+
+.btn-primary {
+    background: #0093FF;
+    border: solid 1px black;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background: #d96521;
+}
+
+.form-container {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    width: fit-content; /* Adjust the width as needed */
+}
+
+.form-control {
+    border: 2px solid #fff;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border: 2px solid #ff7a2c;
+}
+
+a {
+    color: #ff7a2c;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+a:hover {
+    color: #ff7a2c;
+}
+
+/* Responsive Breakpoints */
+@media only screen and (max-width: 767px) {
+    /* ... Mobile Styles ... */
+}
+
+@media (min-width: 768px) {
+    /* ... Tablet and above Styles ... */
+}
+
+@media (min-width: 1024px) {
+    /* ... Desktop and above Styles ... */
+}
+
+/* Search and Table Styles */
+.section__container {
+    max-width: var(--max-width);
+    margin: 30px auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+}
+
+.section__header {
+     text-align: center;
+     margin-bottom: 30px;
+     font-size: 24px;
+     color: var(--text-dark);
+ }
+
+ .section__description {
+     margin-bottom: 10px;
+     font-weight: 500;
+ }
+
+.input__group {
+    margin-bottom: 1rem;
+}
+
+.input__group label {
+    margin-bottom: 5px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.input__group input,
+.input__group select,
+.btn,
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.btn-primary, .btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px; /* Space below the button */
+    font-size: 14px; /* Adjusted to match btn-primary size */
+    border-radius: 4px; /* Consistency with input border radius */
+}
+
+.btn-primary:hover, .btn:hover {
+    background-color: var(--primary-color-dark);
+}
+
+
+.table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background-color: #0093FF;
+    color: var(--white);
+    padding: 10px;
+}
+
+.table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #FFFFF;
+}
+
+@media only screen and (max-width: 767px) {
+    .form-container {
+        width: auto; /* Full width on smaller screens */
+        padding: 15px;
+    }
+}
+
+
+
+/* Rest of your CSS... */
+
+/* Remember to order your CSS logically, group similar elements, and use shorthand wherever possible. */
+/* Keep media queries at the bottom, unless they are for hover effects which should be with their elements. */

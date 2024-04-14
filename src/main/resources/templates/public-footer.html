@@ -1,0 +1,5 @@
+<footer class="mt-auto text-white-50" th:fragment="public-footer">
+    <p>UPTM Venue Online Appointment System v1 <span sec:authorize="!hasRole('ADMIN') and isAuthenticated()"> | Logged in as [[${#request.userPrincipal.principal.fullName}]].</span>
+        <span sec:authorize="hasRole('ADMIN')"> | Logged in as Admin.</span>
+    </p>
+</footer>
