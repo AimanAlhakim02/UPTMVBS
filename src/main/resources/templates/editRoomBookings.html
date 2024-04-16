@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="public-head" :: public-head>
@@ -17,60 +18,78 @@
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
             <main class="px-3">
-            <section class="section__container search-and-results-container">
-                <!-- Edit Room Booking Section -->
-                <section class="edit-section">
-                    <div class="edit-container">
-                        <h2 class="edit-header">Edit Room Booking Details</h2>
-                        <!-- The action URL must match the one in the RoomBookingsController -->
-                        <form th:action="@{/roombookings/update/{id}(id=${booking.id})}" th:object="${booking}" method="post" class="edit-form">
-                            <!-- CSRF Token for security -->
-                            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                <section class="section__container search-and-results-container">
+                    <!-- Edit Room Booking Section -->
+                    <section class="edit-section">
+                        <div class="edit-container">
+                            <h2 class="edit-header">Edit Room Booking Details</h2>
+                            <!-- The action URL must match the one in the RoomBookingsController -->
+                            <form th:action="@{/roombookings/update/{id}(id=${booking.id})}" th:object="${booking}" method="post" class="edit-form">
+                                <!-- CSRF Token for security -->
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
-                            <!-- Bind each input field to the properties of the booking object -->
-                            <div class="form-group">
-                                <label for="roomCode">Room Code:</label>
-                                <input type="text" id="roomCode" name="roomCode" th:field="*{roomCode}" maxlength="50" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="roomName">Room Name:</label>
-                                <input type="text" id="roomName" name="roomName" th:field="*{roomName}" maxlength="100" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customerName">Customer Name:</label>
-                                <input type="text" id="customerName" name="customerName" th:field="*{customerName}" maxlength="100" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phoneNumber">Phone Number:</label>
-                                <input type="tel" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" maxlength="15" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bookingDate">Booking Date:</label>
-                                <input type="date" id="bookingDate" name="bookingDate" th:field="*{bookingDate}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bookingTime">Booking Time:</label>
-                                <input type="time" id="bookingTime" name="bookingTime" th:field="*{bookingTime}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bookingEnd">Booking End Time:</label>
-                                <input type="time" id="bookingEnd" name="bookingEnd" th:field="*{bookingEnd}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="roomPurpose">Room Purpose:</label>
-                                <input type="text" id="roomPurpose" name="roomPurpose" th:field="*{roomPurpose}" maxlength="50" required>
-                            </div>
+                                <!-- Bind each input field to the properties of the booking object -->
+                                <div class="form-group">
+                                    <label for="roomCode">Room Code:</label>
+                                    <input type="text" id="roomCode" name="roomCode" th:field="*{roomCode}" maxlength="50" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roomName">Room Name:</label>
+                                    <input type="text" id="roomName" name="roomName" th:field="*{roomName}" maxlength="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerName">Customer Name:</label>
+                                    <input type="text" id="customerName" name="customerName" th:field="*{customerName}" maxlength="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phoneNumber">Phone Number:</label>
+                                    <input type="tel" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" maxlength="15" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookingDate">Booking Date:</label>
+                                    <input type="date" id="bookingDate" name="bookingDate" th:field="*{bookingDate}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookingTime">Booking Time:</label>
+                                    <input type="time" id="bookingTime" name="bookingTime" th:field="*{bookingTime}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookingEnd">Booking End Time:</label>
+                                    <input type="time" id="bookingEnd" name="bookingEnd" th:field="*{bookingEnd}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roomPurpose">Room Purpose:</label>
+                                    <input type="text" id="roomPurpose" name="roomPurpose" th:field="*{roomPurpose}" maxlength="50" required>
+                                </div>
 
-                            <div class="form-actions">
-                                <button type="submit" class="submit-btn">Update Booking</button>
-                            </div>
-                        </form>
-                    </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="submit-btn">Update Booking</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
                 </section>
-            </section>
-        </main>
+            </main>
+        </div>
     </div>
 </div>
-</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+        var swalType = /*[[${swal}]]*/ 'none';
+        var message = /*[[${message}]]*/ null;
+        var errorMessage = /*[[${errorMessage}]]*/ null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (swalType !== 'none') {
+                Swal.fire({
+                    icon: swalType, // Can be 'success' or 'error'
+                    title: swalType === 'success' ? 'Success!' : 'Error!',
+                    text: swalType === 'success' ? message : errorMessage,
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    /*]]>*/
+</script>
 </body>
 </html>

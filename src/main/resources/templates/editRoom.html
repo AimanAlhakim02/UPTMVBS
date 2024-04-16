@@ -45,5 +45,26 @@
         </div>
 </div>
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+        var swalType = /*[[${swal}]]*/ 'none';
+        var message = /*[[${message}]]*/ null;
+        var errorMessage = /*[[${errorMessage}]]*/ null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (swalType !== 'none') {
+                Swal.fire({
+                    icon: swalType, // Can be 'success' or 'error'
+                    title: swalType === 'success' ? 'Success!' : 'Error!',
+                    text: swalType === 'success' ? message : errorMessage,
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    /*]]>*/
+</script>
+
+
 </body>
 </html>

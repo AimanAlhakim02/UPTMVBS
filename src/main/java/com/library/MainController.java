@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;  // Import for List
 import java.util.Map;  // Import for Map
 
@@ -64,12 +66,26 @@ public class MainController {
 
     @GetMapping("/admin/createroom")
     public String createroom(Model model, @ModelAttribute("message") String message,
-                              @ModelAttribute("swal") String swal,
-                              @ModelAttribute("errorMessage") String errorMessage) {
+                             @ModelAttribute("swal") String swal,
+                             @ModelAttribute("errorMessage") String errorMessage) {
+        logger.info("swal: {}", model.getAttribute("swal"));
+        logger.info("message: {}", model.getAttribute("message"));
         model.addAttribute("message", message);
         model.addAttribute("swal", swal);
         model.addAttribute("errorMessage", errorMessage);
-        return "/admin/createroom";
+        model.addAttribute("rooms", roomService.listAll());
+        return "admin/createroom"; // Remove the leading slash if not necessary depending on your config
+    }
+
+    @GetMapping("/admin/managebooking")
+    public String managebooking(Model model, @ModelAttribute("message") String message,
+                                @ModelAttribute("swal") String swal,
+                                @ModelAttribute("errorMessage") String errorMessage) {
+        model.addAttribute("message", message);
+        model.addAttribute("swal", swal);
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("rooms", roomBookingsService.listAll());  // Corrected method call
+        return "/admin/managebooking";
     }
 
     @GetMapping("/liveTracking")

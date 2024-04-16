@@ -6,14 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="d-flex h-100 text-center text-white bg-dark">
-
 <div class="w-100 h-100 img-wrap">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
         <!-- Header Section -->
         <header th:replace="public-nav :: public-nav"></header>
-        </head>
+
         <body class="d-flex h-100 text-center text-white bg-dark">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
             <!-- Header, Main, and Footer Sections -->
@@ -50,19 +48,21 @@
     var swalAttribute = /*[[${swal}]]*/ 'none';
     var message = /*[[${message}]]*/ 'default message';
 
-    if (swalAttribute === 'success') {
-        Swal.fire({
-            title: 'Success!',
-            text: message !== 'default message' ? message : 'Action completed successfully!',
-            icon: 'success',
-            confirmButtonText: 'OK',
-            timer: 5000,  // Close automatically after 5 seconds
-            timerProgressBar: true,  // Show a timer progress bar
-            willClose: () => {
-                window.location.href = 'admin/createroom'; // Redirect when the modal is closed
-            }
-        });
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        if (swalAttribute === 'success') {
+            Swal.fire({
+                title: 'Success!',
+                text: message !== 'default message' ? message : 'Action completed successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                timer: 5000,  // Close automatically after 5 seconds
+                timerProgressBar: true,  // Show a timer progress bar
+                willClose: () => {
+                    window.location.href = '/admin/createroom'; // Ensure no trailing space
+                }
+            });
+        }
+    });
     /*]]>*/
 </script>
 </body>

@@ -30,24 +30,24 @@ public class RoomController {
     }
 
     @PostMapping("/saveRoom")
-    public String saveRoom(@ModelAttribute Room room, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String saveRoom(@ModelAttribute("room") Room room, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> logger.error("Validation error: " + error.toString()));
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.room", bindingResult);
-            redirectAttributes.addFlashAttribute("room", room);
-            return "admin/createroom";
+            logger.error("Validation error: ");
+            bindingResult.getAllErrors().forEach(error -> logger.error(error.toString()));
+            redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
+            return "redirect:/admin/createroom";
         }
         try {
             roomService.save(room);
             redirectAttributes.addFlashAttribute("swal", "success");
             redirectAttributes.addFlashAttribute("message", "Room saved successfully!");
-            return "admin/createroom";
         } catch (Exception e) {
             logger.error("Exception occurred during room save", e);
             redirectAttributes.addFlashAttribute("errorMessage", "Error saving room: " + e.getMessage());
-            return "admin/createroom";
         }
+        return "redirect:/admin/createroom";
     }
+
 
     @GetMapping("/room/edit/{id}")
     public String editRoom(@PathVariable Integer id, Model model) {
@@ -62,31 +62,54 @@ public class RoomController {
     }
 
     @PostMapping("/room/update/{id}")
-    public String updateRoom(@PathVariable Integer id, @ModelAttribute Room room, RedirectAttributes redirectAttributes) {
+    public String updateRoom(@PathVariable Integer id, @ModelAttribute Room room, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            // Handle errors
+            redirectAttributes.addFlashAttribute("swal", "error");
+            redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
+            return "redirect:/room/edit/" + id;
+        }
         try {
             room.setId(id);
             roomService.save(room);
+            redirectAttributes.addFlashAttribute("swal", "success");
             redirectAttributes.addFlashAttribute("message", "Room updated successfully!");
-            return "admin/manageroom";
+            return "redirect:/admin/manageroom"; // Ensure this URL maps to the page showing the Manage Room HTML
         } catch (Exception e) {
-            logger.error("Error updating room: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("swal", "error");
             redirectAttributes.addFlashAttribute("errorMessage", "Error updating room: " + e.getMessage());
-            return "admin/manageroom";
+            return "redirect:/room/edit/" + id;
         }
     }
 
-    @GetMapping("/room/delete/{id}")
+
+//    @GetMapping("/room/delete/{id}")
+//    public String deleteRoom(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+//        try {
+//            roomService.delete(id);
+//            redirectAttributes.addFlashAttribute("message", "Room deleted successfully!");
+//            return "admin/manageroom";
+//        } catch (RoomNotFoundException e) {
+//            logger.error("Error deleting room: " + e.getMessage());
+//            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting room: " + e.getMessage());
+//            return "admin/manageroom";
+//        }
+//    }
+
+    @PostMapping("/room/delete/{id}")
     public String deleteRoom(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
             roomService.delete(id);
+            redirectAttributes.addFlashAttribute("swal", "success");
             redirectAttributes.addFlashAttribute("message", "Room deleted successfully!");
-            return "admin/manageroom";
         } catch (RoomNotFoundException e) {
-            logger.error("Error deleting room: " + e.getMessage());
+            logger.error("Error deleting room: ", e);
+            redirectAttributes.addFlashAttribute("swal", "error");
             redirectAttributes.addFlashAttribute("errorMessage", "Error deleting room: " + e.getMessage());
-            return "admin/manageroom";
         }
+        return "redirect:/admin/manageroom";
     }
+
 
     // Map HTTP GET requests for '/student/search/page/{pageNum}'
     @GetMapping("/room/search/page/{pageNum}")

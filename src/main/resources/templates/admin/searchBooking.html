@@ -54,7 +54,7 @@
                             <td th:text="${roombooking.roomPurpose}"></td>
                             <td>
                                 <a th:href="@{/roombookings/edit/{id}(id=${roombooking.id})}" class="btn btn-primary">Edit</a>
-                                <a th:href="@{/roombookings/delete/{id}(id=${roombooking.id})}" class="btn btn-danger">Delete</a>
+                                <button type="button" class="btn btn-danger" th:onclick="'confirmDelete(' + ${roombooking.id} + ');'">Delete</button>
                             </td>
                         </tr>
                         </tbody>
@@ -67,6 +67,43 @@
         </div> <!-- Closing tag for search-and-results-container -->
     </main>
 </div> <!-- Closing tag for cover-container -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var swalType = /*[[${swal}]]*/ 'none';
+    var message = /*[[${message}]]*/ null;
+    var errorMessage = /*[[${errorMessage}]]*/ null;
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Only display the SweetAlert if there's a message or error message.
+        if (swalType !== 'none' && (message || errorMessage)) {
+            Swal.fire({
+                icon: swalType, // Can be 'success' or 'error'
+                title: swalType === 'success' ? 'Success!' : 'Error!',
+                text: message ? message : errorMessage,
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+
+    function confirmDelete(room_bookingsId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = document.getElementById('deleteForm');
+                form.action = '/roombookings/delete/' + Id; // Set the action URL using JavaScript
+                form.submit(); // Submit the form
+            }
+        });
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

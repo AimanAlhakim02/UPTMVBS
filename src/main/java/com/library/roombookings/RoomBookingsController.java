@@ -121,16 +121,23 @@ public class RoomBookingsController {
     }
 
     @PostMapping("/roombookings/update/{id}")
-    public String updateBooking(@PathVariable Integer id, @ModelAttribute RoomBookings booking, RedirectAttributes redirectAttributes) {
+    public String updateBooking(@PathVariable Integer id, @ModelAttribute RoomBookings booking, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            // Handle errors
+            redirectAttributes.addFlashAttribute("swal", "error");
+            redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
+            return "redirect:/roombookings/edit/" + id;
+        }
         try {
             booking.setId(id);
             roombookingsService.save(booking);
+            redirectAttributes.addFlashAttribute("swal", "success");
             redirectAttributes.addFlashAttribute("message", "Booking updated successfully!");
-            return "admin/searchBooking";
+            return "redirect:/admin/searchBooking"; // Ensure this URL maps to the page showing the Manage Room HTML
         } catch (Exception e) {
-            logger.error("Error updating booking: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("swal", "error");
             redirectAttributes.addFlashAttribute("errorMessage", "Error updating booking: " + e.getMessage());
-            return "admin/searchBooking";
+            return "redirect:/roombookings/edit/" + id;
         }
     }
 
@@ -138,12 +145,14 @@ public class RoomBookingsController {
     public String deleteBooking(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
             roombookingsService.delete(id);
+            redirectAttributes.addFlashAttribute("swal", "success");
             redirectAttributes.addFlashAttribute("message", "Booking deleted successfully!");
             return "admin/searchBooking";
         } catch (RoomBookingsNotFoundException e) {
-            logger.error("Error deleting booking: " + e.getMessage());
-            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting booking: " + e.getMessage());
-            return "admin/searchBooking";
+            logger.error("Error deleting booking: ", e);
+            redirectAttributes.addFlashAttribute("swal", "error");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting room: " + e.getMessage());
         }
+        return "redirect:/admin/searchBooking";
     }
 }

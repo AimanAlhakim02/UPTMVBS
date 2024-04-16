@@ -38,8 +38,13 @@ public class RoomBookingsService {
 
     public Page<RoomBookings> search(String keyword, int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, SEARCH_RESULT_PER_PAGE);
-        return repo.search(keyword, pageable); // Make sure the search method exists in your repository
+        return repo.search(keyword, pageable); // Adjust this method if necessary to match your repository capabilities
     }
+
+    public Page<RoomBookings> search(String keyword) {
+        return search(keyword, 1); // Default to the first page
+    }
+
 
     public void delete(Integer id) throws RoomBookingsNotFoundException {
         Long count = repo.countById(id);
