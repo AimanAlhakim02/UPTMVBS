@@ -28,15 +28,29 @@
                                 <!-- CSRF Token for security -->
                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
-                                <!-- Bind each input field to the properties of the booking object -->
-                                <div class="form-group">
-                                    <label for="roomCode">Room Code:</label>
-                                    <input type="text" id="roomCode" name="roomCode" th:field="*{roomCode}" maxlength="50" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="roomName">Room Name:</label>
-                                    <input type="text" id="roomName" name="roomName" th:field="*{roomName}" maxlength="100" required>
-                                </div>
+
+                                <!-- Room Code Dropdown -->
+                                <label for="roomCode">Room Code:</label><br>
+                                <select id="roomCode" name="roomCode" required>
+                                    <option value="">Choose a Room Code</option>
+                                    <th:block th:each="room : ${rooms}">
+                                        <option th:value="${room.code}" th:text="${room.code}"
+                                                th:selected="${room.code == booking.roomCode}">
+                                        </option>
+                                    </th:block>
+                                </select><br>
+
+                                <!-- Room Name Dropdown -->
+                                <label for="roomName">Room Name:</label><br>
+                                <select id="roomName" name="roomName" required>
+                                    <option value="">Choose a Room Name</option>
+                                    <th:block th:each="room : ${rooms}">
+                                        <option th:value="${room.location}" th:text="${room.location}"
+                                                th:selected="${room.location == booking.roomName}">
+                                        </option>
+                                    </th:block>
+                                </select><br>
+
                                 <div class="form-group">
                                     <label for="customerName">Customer Name:</label>
                                     <input type="text" id="customerName" name="customerName" th:field="*{customerName}" maxlength="100" required>
@@ -47,16 +61,32 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="bookingDate">Booking Date:</label>
-                                    <input type="date" id="bookingDate" name="bookingDate" th:field="*{bookingDate}" required>
+                                    <input type="date" id="bookingDate" name="bookingDate" th:field="*{bookingDate}"
+                                           th:min="${today}" th:value="${bookingDate} ?: ${today}" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="bookingTime">Booking Time:</label>
-                                    <input type="time" id="bookingTime" name="bookingTime" th:field="*{bookingTime}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bookingEnd">Booking End Time:</label>
-                                    <input type="time" id="bookingEnd" name="bookingEnd" th:field="*{bookingEnd}" required>
-                                </div>
+                                <!-- Booking Time Dropdown -->
+                                <label for="bookingTime">Booking Time:</label><br>
+                                <select id="bookingTime" name="bookingTime" required>
+                                    <option value="">Select Start Time</option>
+                                    <th:block th:each="slot : ${timeSlots}">
+                                        <option th:value="${slot}" th:text="${slot}"
+                                                th:selected="${formattedBookingTime == slot}">
+                                        </option>
+                                    </th:block>
+                                </select><br>
+
+                                <!-- Booking End Time Dropdown -->
+                                <label for="bookingEnd">Booking End Time:</label><br>
+                                <select id="bookingEnd" name="bookingEnd" required>
+                                    <option value="">Select End Time</option>
+                                    <th:block th:each="slot : ${timeSlots}">
+                                        <option th:value="${slot}" th:text="${slot}"
+                                                th:selected="${formattedBookingEndTime == slot}">
+                                        </option>
+                                    </th:block>
+                                </select><br>
+
+
                                 <div class="form-group">
                                     <label for="roomPurpose">Room Purpose:</label>
                                     <input type="text" id="roomPurpose" name="roomPurpose" th:field="*{roomPurpose}" maxlength="50" required>

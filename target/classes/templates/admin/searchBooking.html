@@ -54,7 +54,7 @@
                             <td th:text="${roombooking.roomPurpose}"></td>
                             <td>
                                 <a th:href="@{/roombookings/edit/{id}(id=${roombooking.id})}" class="btn btn-primary">Edit</a>
-                                <button type="button" class="btn btn-danger" th:onclick="'confirmDelete(' + ${roombooking.id} + ');'">Delete</button>
+                                <button type="button" class="btn btn-danger" th:attr="onclick='confirmDelete(' + ${roombooking.id} + ');'">Delete</button>
                             </td>
                         </tr>
                         </tbody>
@@ -86,23 +86,34 @@
         }
     });
 
-    function confirmDelete(room_bookingsId) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var form = document.getElementById('deleteForm');
-                form.action = '/roombookings/delete/' + Id; // Set the action URL using JavaScript
-                form.submit(); // Submit the form
-            }
-        });
-    }
+    function confirmDelete(roombookingId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Create a form dynamically
+            var form = document.createElement('form');
+            document.body.appendChild(form);
+            form.method = 'post';
+            form.action = '/roombookings/delete/' + roombookingId; // Ensuring action is set correctly
+
+            // Optionally add CSRF token if needed
+            var csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_csrf';
+            csrfToken.value = /*[[${_csrf.token}]]*/ 'CSRF-TOKEN-HERE'; // Make sure to replace 'CSRF-TOKEN-HERE' with your actual CSRF token value
+            form.appendChild(csrfToken);
+
+            form.submit();
+        }
+    });
+}
     /*]]>*/
 </script>
 </body>

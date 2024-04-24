@@ -1,5 +1,6 @@
 package com.library;
 
+import com.library.room.Room;
 import com.library.room.RoomService;
 import com.library.roombookings.RoomBookings;
 import com.library.roombookings.RoomBookingsService; // Import the service class
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;  // Import for List
 import java.util.Map;  // Import for Map
+import java.time.LocalTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Controller
 public class MainController {
@@ -30,6 +34,17 @@ public class MainController {
     public String showHomePage() {
         logger.debug("Showing home page");
         return "index";
+    }
+
+    // Method to generate time slots
+    public List<String> generateTimeSlots() {
+        List<String> slots = new ArrayList<>();
+        LocalTime startTime = LocalTime.of(6, 0); // Start at 6:00 AM
+        while (startTime.isBefore(LocalTime.of(22, 0))) { // Up to 10:00 PM
+            slots.add(startTime.toString());
+            startTime = startTime.plusMinutes(30); // Increment by 30 minutes
+        }
+        return slots;
     }
 
     @GetMapping("/index")
@@ -54,15 +69,21 @@ public class MainController {
     }
 
     @GetMapping("/makebooking")
-    public String makebooking(Model model, @ModelAttribute("message") String message,
+    public String makeBooking(Model model, @ModelAttribute("message") String message,
                               @ModelAttribute("swal") String swal,
                               @ModelAttribute("errorMessage") String errorMessage) {
+        List<Room> rooms = roomService.listAll(); // Fetch all rooms
         model.addAttribute("message", message);
         model.addAttribute("swal", swal);
         model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("rooms", roomBookingsService.listAll());  // Corrected method call
-        return "makebooking";
+        model.addAttribute("rooms", rooms); // Add rooms to the model for dropdown
+        model.addAttribute("timeSlots", generateTimeSlots());
+        List<String> slots = generateTimeSlots();
+        logger.debug("Generated Time Slots: {}", slots);
+        model.addAttribute("today", LocalDate.now());
+        return "makebooking"; // The Thymeleaf template that has the form
     }
+
 
     @GetMapping("/admin/createroom")
     public String createroom(Model model, @ModelAttribute("message") String message,

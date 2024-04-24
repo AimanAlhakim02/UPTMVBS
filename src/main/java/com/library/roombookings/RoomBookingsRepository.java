@@ -16,13 +16,9 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface RoomBookingsRepository extends JpaRepository<RoomBookings, Integer> {
 
-    // Existing method for searching
-    @Query(value = "SELECT * FROM room_bookings WHERE MATCH(room_code, room_name, customer_name) " +
-            "AGAINST (?1 IN BOOLEAN MODE)", nativeQuery = true)
-    Page<RoomBookings> search(String keyword, Pageable pageable);
-
-    // Method to find live bookings for a given date
-    // In RoomBookingsRepository.java
+    // Changed method for searching using LIKE for partial matches
+    @Query(value = "SELECT rb FROM RoomBookings rb WHERE rb.roomCode LIKE %:keyword% OR rb.roomName LIKE %:keyword% OR rb.customerName LIKE %:keyword%", nativeQuery = false)
+    Page<RoomBookings> search(@Param("keyword") String keyword, Pageable pageable);
 
     @Query(value = "SELECT * FROM room_bookings WHERE booking_date = CAST(:date AS DATE)", nativeQuery = true)
     List<RoomBookings> findLiveBookings(@Param("date") LocalDate date);
@@ -31,5 +27,4 @@ public interface RoomBookingsRepository extends JpaRepository<RoomBookings, Inte
     // Method to count bookings by ID - you already have this
     Long countById(Integer id);
 
-    // Additional repository methods as needed
 }

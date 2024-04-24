@@ -25,11 +25,23 @@
                             <!-- CSRF Token added for security -->
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
+                            <!-- Room Code Dropdown -->
                             <label for="roomCode">Room Code:</label><br>
-                            <input type="text" id="roomCode" name="roomCode" maxlength="50" required><br>
+                            <select id="roomCode" name="roomCode" required>
+                                <option value="">Choose a Room Code</option>
+                                <th:block th:each="room : ${rooms}">
+                                    <option th:value="${room.code}" th:text="${room.code}"></option>
+                                </th:block>
+                            </select><br>
 
+                            <!-- Room Name Dropdown -->
                             <label for="roomName">Room Name:</label><br>
-                            <input type="text" id="roomName" name="roomName" maxlength="100" required><br>
+                            <select id="roomName" name="roomName" required>
+                                <option value="">Choose a Room Name</option>
+                                <th:block th:each="room : ${rooms}">
+                                    <option th:value="${room.location}" th:text="${room.location}"></option>
+                                </th:block>
+                            </select><br>
 
                             <label for="customerName">Customer Name:</label><br>
                             <input type="text" id="customerName" name="customerName" maxlength="100" required><br>
@@ -38,13 +50,25 @@
                             <input type="tel" id="phoneNumber" name="phoneNumber" maxlength="15" required><br>
 
                             <label for="bookingDate">Booking Date:</label><br>
-                            <input type="date" id="bookingDate" name="bookingDate" required><br>
+                            <input type="date" id="bookingDate" name="bookingDate" required th:min="${today}"><br>
 
+                            <!-- Booking Time Dropdown -->
                             <label for="bookingTime">Booking Time:</label><br>
-                            <input type="time" id="bookingTime" name="bookingTime" required><br>
+                            <select id="bookingTime" name="bookingTime" required>
+                                <option value="">Select Start Time</option>
+                                <th:block th:each="slot : ${timeSlots}">
+                                    <option th:value="${slot}" th:text="${slot}"></option>
+                                </th:block>
+                            </select><br>
 
+                            <!-- Booking End Time Dropdown -->
                             <label for="bookingEnd">Booking End Time:</label><br>
-                            <input type="time" id="bookingEnd" name="bookingEnd" required><br>
+                            <select id="bookingEnd" name="bookingEnd" required>
+                                <option value="">Select End Time</option>
+                                <th:block th:each="slot : ${timeSlots}">
+                                    <option th:value="${slot}" th:text="${slot}"></option>
+                                </th:block>
+                            </select><br>
 
                             <label for="roomPurpose">Room Purpose:</label><br>
                             <input type="text" id="roomPurpose" name="roomPurpose" maxlength="50" required><br><br>

@@ -5,10 +5,13 @@ package com.library.user.auth;
 
 import com.library.roombookings.RoomBookings;
 import com.library.roombookings.RoomBookingsService;
+import com.library.roombookings.RoomBookingsRepository;
 import com.library.roombookings.RoomBookingsNotFoundException;
 import com.library.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,9 @@ public class    AdminController {
     @Autowired
     private RoomBookingsService roomBookingsService;
 
+    @Autowired
+    private RoomBookingsRepository roomBookingsRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     // Map HTTP GET requests for '/admin/student'
@@ -47,28 +53,29 @@ public class    AdminController {
     // Add a method to handle search for room bookings
     @GetMapping("/admin/searchBooking")
     public String adminSearchBookings(
-            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, Model model) {
-        Page<RoomBookings> searchResultPage = roomBookingsService.search(keyword, 1);
-        List<RoomBookings> bookingsList = searchResultPage.getContent();
+            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+            Model model,
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        // Logging the model attributes to check for nulls
-        bookingsList.forEach(booking -> {
-            logger.info("Booking ID: {}, Code: {}, Name: {}",
-                    booking.getId(),
-                    booking.getRoomCode(),
-                    booking.getRoomName()); // Continue with other fields as necessary
-        });
+        if (keyword.trim().isEmpty()) {
+            // Optionally, inform the user to enter a search term
+            model.addAttribute("initialLoad", true); // You can use this attribute to show a message or hide the table initially
+            return "admin/searchBooking";
+        }
+
+        Page<RoomBookings> searchResultPage = roomBookingsRepository.search(keyword, pageable);
+        List<RoomBookings> bookingsList = searchResultPage.getContent();
 
         model.addAttribute("roomBookings", bookingsList);
         model.addAttribute("totalPages", searchResultPage.getTotalPages());
-        model.addAttribute("currentPage", 1);
+        model.addAttribute("currentPage", pageable.getPageNumber());
         model.addAttribute("totalItems", searchResultPage.getTotalElements());
         model.addAttribute("keyword", keyword);
 
-        logger.info("Model: {}", model); // Print the entire model
-
-        return "admin/searchBooking"; // Make sure this is the correct path to your Thymeleaf template
+        return "admin/searchBooking";
     }
+
+
 
 
 
@@ -76,6 +83,10 @@ public class    AdminController {
     public String adminSearchBookingsByPage(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                                             Model model,
                                             @PathVariable(name = "pageNum") int pageNum)  {
+        if (keyword.trim().isEmpty()) {
+            // Handle no keyword provided
+            return "admin/searchBooking";
+        }
         try {
             if (keyword != null && !keyword.trim().isEmpty()) {
                 Page<RoomBookings> result = roomBookingsService.search(keyword, pageNum);
